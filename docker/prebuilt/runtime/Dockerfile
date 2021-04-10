@@ -1,5 +1,4 @@
 FROM ubuntu:18.04
-LABEL maintainer "Nelson Yalta <nyalta21@gmail.com>"
 
 ARG DOCKER_VER
 ENV DOCKER_BUILT_VER ${DOCKER_VER}}
@@ -7,7 +6,10 @@ ENV DOCKER_BUILT_VER ${DOCKER_VER}}
 ARG NUM_BUILD_CORES=8
 ENV NUM_BUILD_CORES ${NUM_BUILD_CORES}
 
+COPY /test_usage /
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install --no-install-recommends \ 
+        software-properties-common \
         automake \
         autoconf \
         apt-utils \
@@ -24,37 +26,36 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y install --no-ins
         libtool \
         libsndfile1-dev \
         python2.7 \
-        python3 \
+        python3-pip \
+        python3.7 \
+        python3-setuptools \
+        python3-wheel \
         sox \
         subversion \
         unzip \
         wget \
         zip \
         zlib1g-dev \
+        llvm-9 \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Kaldi
+RUN export LLVM_CONFIG=/usr/bin/llvm-config-9 
+    
+RUN apt-get update 
+
+RUN apt install -y python3.7-dev 
+
+RUN python3.7 -m pip install -r requirements.txt
+
+RUN git clone https://github.com/espnet/espnet
 RUN git clone https://github.com/kaldi-asr/kaldi
 
-RUN cd /kaldi/tools && \
-    ./extras/install_mkl.sh -sp debian intel-mkl-64bit-2019.2-057 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    make all && \
-    rm -r openfst-*/src && \
-    ./extras/install_beamformit.sh && \
-    ./extras/install_irstlm.sh && \
-    cd /kaldi/src && \
-    ./configure --shared --use-cuda=no && \
-    make depend -j${NUM_BUILD_CORES} && \
-    make -j${NUM_BUILD_CORES} && \
-    find /kaldi/src -name "*.o" -exec rm -f {} \; && \
-    find /kaldi/src -name "*.o" -exec rm -f {} \;
+RUN cd espnet/tools \
+    ln -s ../kaldi-asr
 
-RUN wget --tries=3 "https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh" -O miniconda.sh && \
-    bash miniconda.sh -b -p /miniconda && \
-    rm miniconda.sh
+RUN cd espnet \
+python3.7 -m pip install -e .
 
 WORKDIR /

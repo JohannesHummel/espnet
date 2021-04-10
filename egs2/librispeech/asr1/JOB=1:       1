@@ -1,0 +1,5 @@
+# exp/lm_stats_bpe5000/logdir/stats.JOB.log python3 -m espnet2.bin.lm_train --collect_stats true --use_preprocessor true --bpemodel data/token_list/bpe_unigram5000/bpe.model --token_type bpe --token_list data/token_list/bpe_unigram5000/tokens.txt --non_linguistic_symbols none --cleaner none --g2p none --train_data_path_and_name_and_type dump/raw/lm_train.txt,text,text --valid_data_path_and_name_and_type dump/raw/dev/text,text,text --train_shape_file exp/lm_stats_bpe5000/logdir/train.JOB.scp --valid_shape_file exp/lm_stats_bpe5000/logdir/dev.JOB.scp --output_dir exp/lm_stats_bpe5000/logdir/stats.JOB --config conf/tuning/train_lm_adam.yaml 
+# Started at Fri Mar 12 13:42:29 CET 2021
+#
+# Accounting: time=0 threads=1
+# Ended (code 2) at Fri Mar 12 13:42:29 CET 2021, elapsed time 0 seconds

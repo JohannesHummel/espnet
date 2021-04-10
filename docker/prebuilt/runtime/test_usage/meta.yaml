@@ -1,0 +1,10 @@
+espnet: 0.8.0
+files:
+  asr_model_file: exp/asr_train_asr_transformer_e18_raw_bpe_sp/54epoch.pth
+  lm_file: exp/lm_train_lm_adam_bpe/17epoch.pth
+python: "3.7.3 (default, Mar 27 2019, 22:11:17) \n[GCC 7.3.0]"
+timestamp: 1600169559.061977
+torch: 1.6.0
+yaml_files:
+  asr_train_config: exp/asr_train_asr_transformer_e18_raw_bpe_sp/config.yaml
+  lm_train_config: exp/lm_train_lm_adam_bpe/config.yaml

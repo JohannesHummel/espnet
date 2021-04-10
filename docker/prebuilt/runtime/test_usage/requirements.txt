@@ -1,0 +1,7 @@
+numba==0.50.1 
+torch==1.7.1
+numpy==1.19.4
+SoundFile==0.10.3.post1
+espnet-model-zoo==0.0.0a20
+scipy==1.5.4
+Cython==0.29.21
